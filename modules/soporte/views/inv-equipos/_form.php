@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use app\modules\soporte\models\CatAntiguedad;
 use app\modules\soporte\models\EstadoEquipo;
 use app\modules\soporte\models\TipoEquipo;
+use kartik\alert\AlertBlock;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\soporte\models\InvEquipos */
@@ -28,11 +29,19 @@ use app\modules\soporte\models\TipoEquipo;
     </div>
   </div>
 </div>
+<?php
+echo AlertBlock::widget([
+    'type' => AlertBlock::TYPE_ALERT,
+    'delay' => 6000,
+    'useSessionFlash'=>true
+    ]);
+?>
 <?php $form = ActiveForm::begin([
     'id' => 'inv-equipos-form',
     'enableClientValidation' => true,
+   // 'enableAjaxValidation' => true,
     'options' => [
-        'validateOnSubmit' => true,
+      //  'validateOnSubmit' => true,
         'class' => 'form'
     ],
 ]); ?>
