@@ -1,0 +1,1 @@
+info_equipos.php
