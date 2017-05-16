@@ -105,8 +105,10 @@ class InvEquiposController extends Controller
             $model->clasif = 1; //$this->antiguedad($fecha1,$fecha2);
             if (!$model->save()) {
                 echo "<pre>";
-                print_r($model->getErrors());
-                exit;
+               // print_r($model->getErrors());
+                Yii::$app->session->setflash("error","Error: Progresivo No existe en el sistema inventarial y/o progresivo ya fue registrado ");
+                 return $this->redirect(['create']);
+                //exit;
                 # code...
             }
             return $this->redirect(['view', 'id' => $model->id]);

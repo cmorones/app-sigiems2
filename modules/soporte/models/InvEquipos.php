@@ -57,13 +57,32 @@ class InvEquipos extends ActiveRecord
     public function rules()
     {
         return [
+            [['progresivo'], 'progresivovalido'],
+            [['progresivo'], 'unique', 'message'=>'Progresivo ya existe en la base'],
             [['progresivo', 'id_tipo', 'marca', 'modelo', 'estado', 'id_plantel', 'id_area', 'id_piso', 'clasif', 'created_by', 'updated_by'], 'integer'],
             [['serie', 'procesador', 'ram', 'disco_duro', 'observaciones', 'monitor', 'monitor_serie', 'teclado', 'teclado_serie', 'mouse', 'mouse_serie'], 'string'],
             [['progresivo', 'serie', 'procesador', 'ram', 'id_tipo', 'marca', 'modelo', 'estado', 'id_plantel', 'clasif', 'created_at', 'created_by'], 'required', 'message'=>''],
+          
             [['created_at', 'updated_at'], 'safe'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['created_by' => 'user_id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['updated_by' => 'user_id']],
         ];
+    }
+
+    public function progresivovalido($attribute, $params){
+
+
+       $cuenta_inv = \Yii::$app->db2->createCommand('SELECT count(progresivo) FROM bienes_muebles where id_situacion_bien=1 and clave_cabms=\'5151000138\' and progresivo='.$this->progresivo.'')->queryColumn();
+
+       // $cuenta_inv[0] =0;
+
+                if ($cuenta_inv[0] == 0) {
+
+                    return $this->addError("progresivo", "Este progresivo no existe en invetario");
+                   //return true;
+            }
+           
+            
     }
 
     /**
